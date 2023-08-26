@@ -1,27 +1,27 @@
 <script>
 
-import { cardsType } from "../FullCardsSet.js";
+import { cardsType, cardNameFilter, cardArchetypeFilter, fetchCharacters } from "../FullCardsSet.js";
 
 export default {
 
     data(){
         return {
             cardsType,
-            formData: {},
-            // sono rimasto che ho messo formData in tutti e 3 i file e non funziona
+            cardNameFilter,
+            cardArchetypeFilter,
         }
     },
-    methods: {
-        onFormSubmit() {
-            console.log("ciao", this.formData);
-        }
-    }
+    methods:{
+        fetchCharacters,
+    },
 }
 </script>
 
 <template>
     <form @submit.prevent="onFormSubmit">
-        <input list="card-type-list" name="card-type-list" v-model="formData"
+        Filtro per Archetipo
+        <input list="card-type-list" name="card-type-list" 
+        v-model="cardArchetypeFilter.searchText"
         >
         <datalist id="card-type-list" >
             <option :value="singleArchetype.archetype_name"
@@ -29,7 +29,14 @@ export default {
             
             ></option>
         </datalist>
-        <input type="submit">
+        <input type="reset">
+    </form>
+
+
+    <form @submit.prevent="onFormSubmit">
+        Filtro per Nome
+        <input v-model="cardNameFilter.searchText">
+        <input type="reset">
     </form>
 </template>
 

@@ -1,6 +1,6 @@
 <script>
 import TheCard from "../components/TheCard.vue"
-import { fullSet, formData} from "../FullCardsSet.js";
+import { fullSet, cardNameFilter, fetchCharacters, fetchArchetype, cardsType, cardArchetypeFilter} from "../FullCardsSet.js";
 export default {
     components: {
     TheCard,
@@ -8,11 +8,32 @@ export default {
   data() {
     return {
         fullSet,
-        formData,
+        cardNameFilter,
+        cardsType,
+        cardArchetypeFilter,
     }
   },
+  watch:{
+    "cardNameFilter.searchText": function (newSearchText) {
+        this.fullSet.fullCardsSet = [],
+        this.fetchCharacters(
+            `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${newSearchText.toLowerCase()}`
+        ) 
+    },
+    "cardArchetypeFilter.searchText": function (newSearchText) {
+        this.fullSet.fullCardsSet = [],
+        this.fetchCharacters(
+            `https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype=${newSearchText.toLowerCase()}`
+        ) 
+    }
+  },
+  methods:{
+    fetchCharacters,
+    fetchArchetype
+  },
     mounted(){
-        console.log(formData);
+        fetchCharacters(),
+        fetchArchetype()
   },
 
 }

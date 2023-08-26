@@ -1,11 +1,9 @@
 import axios from "axios";
 import { reactive } from "vue";
-import {formData} from "./components/TheOptionSelector.vue"
 
 export default{
     data(){
-        return {
-            formData,
+        return {           
         }
     }
 }
@@ -15,18 +13,33 @@ export const fullSet = reactive({
 
 })
 
+export function fetchCharacters(newUrl) {
+    const url = newUrl ?? "https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=0";
 
-axios.get("https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=0")
+    axios.get(url)
     .then((response) => {
     fullSet.fullCardsSet = response.data.data;
 })
+}
+
 
 export const cardsType = reactive({
     cardsTypeList: [],
 })
 
-axios.get("https://db.ygoprodeck.com/api/v7/archetypes.php")
+export function fetchArchetype() {
+    axios.get("https://db.ygoprodeck.com/api/v7/archetypes.php")
     .then((response) => {
         cardsType.cardsTypeList = response.data;
-        console.log(cardsType);
     })
+}
+
+
+
+export const cardNameFilter = reactive ({
+    searchText: "",
+})
+
+export const cardArchetypeFilter = reactive ({
+    searchText: "",
+})
